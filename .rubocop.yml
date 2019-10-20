@@ -1,0 +1,29 @@
+require: rubocop-performance
+
+AllCops:
+  Exclude:
+  DisplayCopNames: true
+Layout/AlignHash:
+  Enabled: false
+Layout/EmptyLines:
+  Enabled: true
+  Exclude:
+    - 'Gemfile'
+Layout/EmptyLineAfterGuardClause:
+  Enabled: false
+Layout/ExtraSpacing:
+  Enabled: true
+  Exclude:
+Layout/SpaceInsideArrayLiteralBrackets:
+  Enabled: true
+  Exclude:
+Metrics/LineLength:
+  Enabled: true
+  Max:     120
+  Exclude:
+Style/Documentation:
+  Enabled: false
+Style/FrozenStringLiteralComment: 
+  Enabled: false
+Style/StringLiterals:
+  Enabled: false
