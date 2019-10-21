@@ -2,10 +2,9 @@ require "logger"
 require "sinatra/base"
 
 class ApplicationController < Sinatra::Base
-  Logger.class_eval { alias :write :"<<" }
-  logger = ::Logger.new(STDOUT)
+  private
 
-  configure do
-    use Rack::CommonLogger, logger
+  def logger
+    @logger ||= ::Logger.new(STDOUT)
   end
 end
