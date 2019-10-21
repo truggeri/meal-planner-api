@@ -6,7 +6,7 @@ Ruby based api for meal planner application.
 To run locally,
 ```bash
 bundle install
-bundle exec puma --config config/environment.rb
+bundle exec puma --config config/puma.rb
 ```
 
 You can test that the server is working by hitting the health endpoint,
