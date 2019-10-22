@@ -2,7 +2,7 @@ default: &default
   adapter: postgresql
   encoding: unicode
   host: <%= ENV["MEAL_PLANNER_API_DB_HOST"].presence || "localhost" %>
-  port: <%= ENV["MEAL_PLANNER_API_DB_PORT"].to_i.presence || 15400
+  port: <%= ENV["MEAL_PLANNER_API_DB_PORT"].to_i.presence || 15400 %>
   pool: 5
   timeout: 5000
   username: <%= ENV["MEAL_PLANNER_API_DB_USERNAME"] %>
@@ -17,7 +17,7 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: <%= ENV["MEAL_PLANNER_API_DB_DATABASE"].presence || "meal-planner-api-test" %>
+  database: meal-planner-api-test
 
 production:
   adapter: postgresql

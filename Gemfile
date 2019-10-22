@@ -1,5 +1,4 @@
 source "https://rubygems.org" do
-
   gem "activemodel"
   gem "activerecord"
   gem "pg"
@@ -10,8 +9,11 @@ source "https://rubygems.org" do
   gem "sinatra-activerecord"
 
   group :test do
+    gem "database_cleaner"
     gem "factory_bot"
+    gem "ffaker"
     gem "minitest"
+    gem "rack-test"
     gem "rubocop"
     gem "rubocop-performance"
   end

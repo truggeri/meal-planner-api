@@ -43,3 +43,16 @@ Environment variables used for configuration,
 | RACK_ENV | - | Environment to run Rack server in |
 | PORT | 4000 | Port to host Rack server on |
 
+## Testing
+
+Tests are written using the [MiniTest framework](https://github.com/seattlerb/minitest). To run tests, 
+
+```bash
+bundle exec rake test
+```
+
+Linting is done by [Rubocop](https://github.com/rubocop-hq/rubocop) and can be run with,
+
+```bash
+bundle exec rubocop -D
+```
