@@ -10,7 +10,7 @@ default: &default
 
 development:
   <<: *default
-  database: <%= ENV["MEAL_PLANNER_API_DB_DATABASE"].presence || "meal-planner-api-dev" %>
+  database: meal-planner-api-dev
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
