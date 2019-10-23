@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_23_115205) do
+ActiveRecord::Schema.define(version: 2019_10_23_121559) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,6 +23,19 @@ ActiveRecord::Schema.define(version: 2019_10_23_115205) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "recipe_ingredients", force: :cascade do |t|
+    t.bigint "recipe_id"
+    t.bigint "ingredient_id"
+    t.integer "amount", null: false
+    t.integer "measure", null: false
+    t.boolean "precise_amount", default: false, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["ingredient_id"], name: "index_recipe_ingredients_on_ingredient_id"
+    t.index ["recipe_id", "ingredient_id"], name: "index_recipe_ingredients_on_recipe_id_and_ingredient_id", unique: true
+    t.index ["recipe_id"], name: "index_recipe_ingredients_on_recipe_id"
+  end
+
   create_table "recipes", force: :cascade do |t|
     t.text "description", null: false
     t.integer "minutes_to_make"
@@ -32,4 +45,6 @@ ActiveRecord::Schema.define(version: 2019_10_23_115205) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "recipe_ingredients", "ingredients"
+  add_foreign_key "recipe_ingredients", "recipes"
 end
