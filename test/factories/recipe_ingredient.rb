@@ -14,6 +14,7 @@
 
 FactoryBot.define do
   factory :recipe_ingredient do
+    account
     amount          { Random.rand(1..500) }
     measure         { RecipeIngredient.measures.keys.sample }
     precise_amount  { [true, false].sample }

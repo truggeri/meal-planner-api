@@ -12,6 +12,10 @@
 #
 
 class Recipe < ActiveRecord::Base
+  belongs_to :account
+  has_many   :recipe_ingredients, dependent: :destroy
+  has_many   :ingredients, through: :recipe_ingredients
+
   validates :description, presence: true, length: { maximum: 200 }
   validates :minutes_to_make, numericality: { only_integer: true, greater_than: 0, less_than: 1440 }
   validates :name, presence: true, length: { maximum: 50 }, uniqueness: true

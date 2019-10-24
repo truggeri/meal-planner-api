@@ -11,5 +11,8 @@
 #
 
 class Account < ActiveRecord::Base
-  validates   :name, presence: true, length: { maximum: 50 }, uniqueness: true
+  has_many :recipes
+  has_many :recipe_ingredients
+
+  validates :name, presence: true, length: { maximum: 50 }, uniqueness: true
 end

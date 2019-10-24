@@ -13,6 +13,7 @@
 #
 
 class RecipeIngredient < ActiveRecord::Base
+  belongs_to :account
   belongs_to :ingredient
   belongs_to :recipe
 

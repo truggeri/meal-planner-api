@@ -15,6 +15,7 @@ FactoryBot.define do
   RECIPE_VISIBLE_PERCENTAGE = 70
 
   factory :recipe do
+    account
     description     { FFaker::Lorem.phrase }
     minutes_to_make { Random.rand(1..100) }
     name            { FFaker::Food.ingredient }
