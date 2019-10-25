@@ -22,4 +22,8 @@ source "https://rubygems.org" do
     gem "annotate"
     gem "pry"
   end
+
+  group :bad_namespace do
+    gem "sinatra-contrib"
+  end
 end

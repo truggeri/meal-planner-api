@@ -14,7 +14,7 @@
 
 require "test_helper"
 
-class RecipeTest < Minitest::Test
+class RecipeIngredientTest < Minitest::Test
   def setup
     super
     @ri = build(:recipe_ingredient)
