@@ -1,6 +1,8 @@
 # meal-planner-api
 Ruby based api for meal planner application.
 
+![](https://github.com/truggeri/meal-planner-api/workflows/Build/badge.svg)
+
 ## Getting started
 
 To run locally,
@@ -38,10 +40,26 @@ Environment variables used for configuration,
 | MEAL_PLANNER_API_DB_PORT | 15400 | Tcp port of the database |
 | MEAL_PLANNER_API_DB_USERNAME | - | Postgres username |
 | MEAL_PLANNER_API_DB_PASSWORD | - | Postgres password |
-| DATABASE_URL | - | Postgres url (with username, password, host and port) used in Production |
+| DATABASE_URL | - | Postgres url (with username, password, host and port) - overwrites all above |
 | SINATRA_ENV | development | Environment to run in |
 | RACK_ENV | - | Environment to run Rack server in |
 | PORT | 4000 | Port to host Rack server on |
+
+## Running with Docker
+
+There is a [Dockerfile](https://docs.docker.com/get-started/#build-and-test-your-image) for this project. To build it,
+
+```bash
+docker build --tag meal-planner-api .
+```
+
+Then to run via container,
+
+```bash
+docker run --rm --detatch --port 4000:4000 --name meal-planner-api meal-planner-api:latest
+```
+
+To set configuration options, use the `docker run` `--env` option to pass in environment variables as in the above [configuration section](#configuration).
 
 ## Testing
 
