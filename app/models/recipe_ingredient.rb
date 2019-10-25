@@ -19,10 +19,11 @@ class RecipeIngredient < ActiveRecord::Base
 
   validates :amount, numericality: { only_integer: true, greater_than: 0 }
   enum measure: {
-    oz:         0,
-    gram:       1,
-    teaspoon:   2,
-    tablespoon: 3,
-    cup:        4
+    item:       0,
+    oz:         1,
+    gram:       2,
+    teaspoon:   3,
+    tablespoon: 4,
+    cup:        5
   }
 end
