@@ -19,3 +19,8 @@ Rake::TestTask.new(:test) do |t|
 end
 
 task default: :test
+
+desc "Start a console"
+task :console do
+  binding.pry # rubocop:disable Lint/Debugger
+end
