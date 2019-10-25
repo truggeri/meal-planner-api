@@ -20,7 +20,7 @@ WORKDIR /app
 COPY Gemfile* ./
 COPY .ruby-version .
 RUN gem install bundler --version 2.0.2 --quiet
-RUN bundle install --with bad_namespace --without development test --quiet
+RUN bundle install --with bad_namespace production --without development test --quiet
 
 FROM build-image as default-image
 

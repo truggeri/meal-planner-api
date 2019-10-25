@@ -1,0 +1,49 @@
+# @see https://dev.to/smitjel/kicking-the-tires-on-github-actions-45g9
+
+name: Build
+
+on: 
+  push:
+    branches: 
+      - master
+
+jobs:
+  build:
+
+    runs-on: ubuntu-18.04
+
+    services:
+      postgres:
+        image: postgres:11
+        ports: ['5432:5432']
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set up Ruby 2.6
+      uses: actions/setup-ruby@v1
+      with:
+        ruby-version: 2.6.x
+    - name: Setup gems
+      run: |
+        sudo apt-get -yqq install libpq-dev
+        gem install bundler
+        bundle install --with bad_namespace test --without development production --jobs 4 --retry 3
+    - name: Run linter
+      run: |
+        bundle exec rubocop -D
+    - name: Prepare Postgres database
+      env:
+        RAILS_ENV: test
+        DATABASE_URL: postgresql://postgres@127.0.0.1/meal-planner-api-test?pool=5
+      run: |
+        rm config/database.yml
+        bundle exec rake db:create
+        bundle exec rake db:migrate
+        bundle exec rake db:schema:load
+    - name: Run test suite
+      env:
+        RAILS_ENV: test
+        DATABASE_URL: postgresql://postgres@127.0.0.1/meal-planner-api-test?pool=5
+      run: |
+        bundle exec rake test
