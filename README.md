@@ -1,7 +1,15 @@
 # meal-planner-api
-Ruby based api for meal planner application.
+[Ruby](https://www.ruby-lang.org/en/) and [Rack](https://rack.github.io/) based api for meal planner application.
 
 ![](https://github.com/truggeri/meal-planner-api/workflows/Build/badge.svg)
+
+## Description
+
+This is a pet project that will serve as a smaller piece to a larger meal planning application 
+which demonstrates the use of [Sinatra](http://sinatrarb.com) as a [Rack](https://rack.github.io/) based micro service.
+The service uses Active Record and [Postgres](https://www.postgresql.org/) for data persistence, 
+but does not have much of the "Rails magic," at least not setup by default.
+See below for the [api documentation](#api-documentation). 
 
 ## Getting started
 
@@ -24,7 +32,8 @@ If you want to use Docker to setup a Postgres database locally, you can do so vi
 bundle exec rake docker:db:start
 ```
 
-This will start a Postgres database using [env variables](#configuration) for the hosted port, database name, username and password. To tear this db down, run
+This will start a Postgres database using [env variables](#configuration) for the hosted port, 
+database name, username and password. To tear this db down, run
 
 ```bash
 bundle exec rake docker:db:stop
@@ -59,7 +68,12 @@ Then to run via container,
 docker run --rm --detatch --port 4000:4000 --name meal-planner-api meal-planner-api:latest
 ```
 
-To set configuration options, use the `docker run` `--env` option to pass in environment variables as in the above [configuration section](#configuration).
+To set configuration options, use the `docker run` `--env` option to pass in environment variables 
+as in the above [configuration section](#configuration).
+
+## API Documentation
+
+WIP - to come. This section will contain api docs for available HTTP routes.
 
 ## Testing
 
