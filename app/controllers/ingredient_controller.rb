@@ -20,6 +20,16 @@ class IngredientsController < ApplicationController
     json ingredient
   end
 
+  post ENTITY_PATH do
+    halt BAD_REQUEST if %i[name description fresh].any? { |p| params[p].blank? }
+
+    existing_ingredient = Ingredient.where(name: params[:name])
+    halt CONFLICT, "Resource exists" if existing_ingredient.present?
+
+    new_ingredient = Ingredient.create(name: params[:name], description: params[:description], fresh: params[:fresh])
+    json new_ingredient.slice(permitted_params)
+  end
+
   private
 
   def permitted_params

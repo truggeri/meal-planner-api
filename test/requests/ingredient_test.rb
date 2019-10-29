@@ -44,4 +44,27 @@ class IngredientRequestTest < Minitest::Test
     assert last_response.status == 200
     assert_equal ingredient.slice(PERMITTED_PARAMS).to_json, last_response.body
   end
+
+  def test_create_with_missing_params
+    post "/ingredient", description: "foo", fresh: true
+    assert last_response.status == 400
+  end
+
+  def test_create_with_existing_name
+    ingredient = create(:ingredient)
+
+    post "/ingredient", name: ingredient[:name], description: "foo", fresh: true
+    assert last_response.status == 409
+  end
+
+  def test_create_with_valid_params
+    ingredient = build(:ingredient)
+
+    post "/ingredient", name: ingredient.name, description: ingredient.description, fresh: ingredient.fresh
+    assert last_response.status == 200
+    response = JSON.parse(last_response.body)
+    (PERMITTED_PARAMS - [:id]).each do |p|
+      assert_equal ingredient.send(p), response[p.to_s]
+    end
+  end
 end
