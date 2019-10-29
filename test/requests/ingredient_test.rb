@@ -10,14 +10,14 @@ class IngredientRequestTest < Minitest::Test
   end
 
   def test_index_with_no_content
-    get "/"
+    get "/ingredients"
     assert last_response.status == 204
   end
 
   def test_index_with_one_ingredients
     ingredient = create(:ingredient)
 
-    get "/"
+    get "/ingredients"
     assert last_response.status == 200
     assert_equal [ingredient.slice(PERMITTED_PARAMS)].to_json, last_response.body
   end
@@ -26,21 +26,21 @@ class IngredientRequestTest < Minitest::Test
     ingredient1 = create(:ingredient)
     ingredient2 = create(:ingredient)
 
-    get "/"
+    get "/ingredients"
     assert last_response.status == 200
     assert_equal [ingredient1.slice(PERMITTED_PARAMS),
                   ingredient2.slice(PERMITTED_PARAMS)].to_json, last_response.body
   end
 
   def test_view_with_no_content
-    get "/1"
+    get "/ingredient/1"
     assert last_response.status == 404
   end
 
   def test_view_with_ingredient
     ingredient = create(:ingredient)
 
-    get "/#{ingredient.id}"
+    get "/ingredient/#{ingredient.id}"
     assert last_response.status == 200
     assert_equal ingredient.slice(PERMITTED_PARAMS).to_json, last_response.body
   end
