@@ -16,6 +16,9 @@ Layout/ExtraSpacing:
   Enabled: true
 Layout/SpaceInsideArrayLiteralBrackets:
   Enabled: true
+Metrics/AbcSize:
+  Enabled: true
+  Max:     20
 Metrics/BlockLength:
   Enabled: true
   Exclude:

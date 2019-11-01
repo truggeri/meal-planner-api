@@ -34,8 +34,15 @@ class IngredientsController < ApplicationController
   end
 
   # update
+  patch "#{ENTITY_PATH}/:id" do
+    existing_ingredient = Ingredient.find_by(id: params[:id])
+    halt NOT_FOUND unless existing_ingredient.present?
 
-
+    params_to_update = params.slice(*(permitted_params - [:id]))
+    existing_ingredient.update!(params_to_update)
+    existing_ingredient.reload
+    json existing_ingredient.slice(permitted_params)
+  end
 
   # delete
   delete "#{ENTITY_PATH}/:id" do
@@ -49,6 +56,6 @@ class IngredientsController < ApplicationController
   private
 
   def permitted_params
-    %i[id name description fresh]
+    @permitted_params ||= %i[id name description fresh]
   end
 end

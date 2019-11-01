@@ -68,6 +68,29 @@ class IngredientRequestTest < Minitest::Test
     end
   end
 
+  def test_patch_with_bad_id
+    patch "/ingredient/1"
+    assert last_response.status == 404
+  end
+
+  def test_patch_response_body
+    ingredient = create(:ingredient)
+
+    patch "/ingredient/#{ingredient.id}", name: "foo", foo: "bar"
+    assert last_response.status == 200
+    response = JSON.parse(last_response.body)
+    assert_equal ingredient.id, response["id"]
+  end
+
+  def test_patch_modifies_db
+    ingredient = create(:ingredient)
+
+    patch "/ingredient/#{ingredient.id}", name: "foo", foo: "bar"
+    assert last_response.status == 200
+    ingredient.reload
+    assert_equal ingredient.name, "foo"
+  end
+
   def test_delete_with_bad_id
     delete "/ingredient/1"
     assert last_response.status == 404
