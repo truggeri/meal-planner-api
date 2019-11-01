@@ -67,4 +67,18 @@ class IngredientRequestTest < Minitest::Test
       assert_equal ingredient.send(p), response[p.to_s]
     end
   end
+
+  def test_delete_with_bad_id
+    delete "/ingredient/1"
+    assert last_response.status == 404
+  end
+
+  def test_delete_with_good_id
+    ingredient = create(:ingredient)
+
+    pre_count = Ingredient.all.count
+    delete "/ingredient/#{ingredient.id}"
+    assert last_response.status == 200
+    assert_equal pre_count - 1, Ingredient.all.count
+  end
 end

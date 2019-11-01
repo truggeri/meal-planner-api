@@ -2,6 +2,7 @@ class IngredientsController < ApplicationController
   ENTITY_PATH = "/ingredient".freeze
   INDEX_PATH  = "#{ENTITY_PATH}s".freeze
 
+  # index
   get INDEX_PATH do
     ingredients = Ingredient.all
     halt NO_CONTENT if ingredients.count.zero?
@@ -13,6 +14,7 @@ class IngredientsController < ApplicationController
     redirect to("/")
   end
 
+  # view
   get "#{ENTITY_PATH}/:id" do
     ingredient = Ingredient.select(permitted_params).find_by(id: params[:id])
     halt NOT_FOUND if ingredient.blank?
@@ -20,6 +22,7 @@ class IngredientsController < ApplicationController
     json ingredient
   end
 
+  # create
   post ENTITY_PATH do
     halt BAD_REQUEST if %i[name description fresh].any? { |p| params[p].blank? }
 
@@ -28,6 +31,19 @@ class IngredientsController < ApplicationController
 
     new_ingredient = Ingredient.create(name: params[:name], description: params[:description], fresh: params[:fresh])
     json new_ingredient.slice(permitted_params)
+  end
+
+  # update
+
+
+
+  # delete
+  delete "#{ENTITY_PATH}/:id" do
+    existing_ingredient = Ingredient.find_by(id: params[:id])
+    halt NOT_FOUND unless existing_ingredient.present?
+
+    existing_ingredient.delete
+    200
   end
 
   private
