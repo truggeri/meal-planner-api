@@ -20,7 +20,7 @@ class IngredientsController < ApplicationController
 
   # create
   post ENTITY_PATH do
-    halt BAD_REQUEST if %i[name description fresh].any? { |p| params[p].blank? }
+    halt BAD_REQUEST if (permitted_params - [:id]).any? { |p| params[p].blank? }
 
     existing_ingredient = Ingredient.where(name: params[:name])
     halt CONFLICT, "Resource exists" if existing_ingredient.present?

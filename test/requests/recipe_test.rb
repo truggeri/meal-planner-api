@@ -35,6 +35,22 @@ class RecipeRequestTest < Minitest::Test
     assert_equal format_ingredients(recipe).to_json, last_response.body
   end
 
+  def test_create_with_missing_params
+    post "/recipe", description: "foo", visible: true
+    assert last_response.status == 400
+  end
+
+  def test_create_with_valid_params
+    recipe = build(:recipe)
+
+    post "/recipe", description: recipe.description, minutes_to_make: recipe.minutes_to_make, visible: recipe.visible
+    assert last_response.status == 200
+    response = JSON.parse(last_response.body)
+    (PERMITTED_PARAMS - [:id]).each do |p|
+      assert_equal recipe.send(p), response[p.to_s]
+    end
+  end
+
   def test_patch_with_bad_id
     patch "/recipe/1"
     assert last_response.status == 404

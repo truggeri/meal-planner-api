@@ -20,7 +20,12 @@ class RecipesController < ApplicationController
 
   # create
   post ENTITY_PATH do
-    NOT_FOUND
+    halt BAD_REQUEST if (permitted_params - [:id]).any? { |p| params[p].blank? }
+
+    new_recipe = Recipe.create(description: params[:description],
+                               minutes_to_make: params[:minutes_to_make],
+                               visible: params[:visible])
+    json new_recipe.slice(permitted_params)
   end
 
   # update
