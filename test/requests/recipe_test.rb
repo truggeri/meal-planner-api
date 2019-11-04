@@ -32,7 +32,7 @@ class RecipeRequestTest < Minitest::Test
 
     get "/recipe/#{recipe.id}"
     assert last_response.status == 200
-    assert_equal format_ingredients(recipe).to_json, last_response.body
+    assert_equal recipe.slice(PERMITTED_PARAMS).to_json, last_response.body
   end
 
   def test_create_with_missing_params
@@ -86,13 +86,5 @@ class RecipeRequestTest < Minitest::Test
     delete "/recipe/#{recipe.id}"
     assert last_response.status == 200
     assert_equal pre_count - 1, Recipe.all.count
-  end
-
-  private
-
-  def format_ingredients(recipe)
-    ingredient_details = recipe.recipe_ingredients.first.slice(%i[amount measure precise_amount])
-    ingredients_hash   = { "ingredients" => { recipe.ingredients.first.name => ingredient_details } }
-    recipe.slice(PERMITTED_PARAMS).merge(ingredients_hash)
   end
 end

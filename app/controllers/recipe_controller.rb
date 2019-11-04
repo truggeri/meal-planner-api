@@ -12,10 +12,10 @@ class RecipesController < ApplicationController
 
   # view
   get "#{ENTITY_PATH}/:id" do
-    recipe = Recipe.includes(:recipe_ingredients, :ingredients).select(permitted_params).find_by(id: params[:id])
+    recipe = Recipe.select(permitted_params).find_by(id: params[:id])
     halt NOT_FOUND if recipe.blank?
 
-    json format_with_ingredients(recipe)
+    json recipe
   end
 
   # create
@@ -52,12 +52,5 @@ class RecipesController < ApplicationController
 
   def permitted_params
     @permitted_params ||= %i[id description minutes_to_make visible]
-  end
-
-  def format_with_ingredients(recipe)
-    ingredients_hash = recipe.recipe_ingredients.each_with_object({}) do |ri, hash|
-      hash[ri.ingredient.name] = ri.slice(%i[amount measure precise_amount])
-    end
-    recipe.slice(permitted_params).merge(ingredients: ingredients_hash)
   end
 end

@@ -20,7 +20,11 @@ class RecipeIngredientTest < Minitest::Test
     @ri = build(:recipe_ingredient)
   end
 
-  def amount_greater_than_zero
+  def test_should_be_valid
+    assert @ri.valid?
+  end
+
+  def test_amount_greater_than_zero
     @ri.amount = 0
     assert !@ri.valid?
   end

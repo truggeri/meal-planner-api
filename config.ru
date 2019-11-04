@@ -12,3 +12,4 @@ run ApplicationController
 use HealthController
 use IngredientsController
 use RecipesController
+use RecipeIngredientsController
