@@ -10,6 +10,11 @@ require "rack/test"
 require "database_cleaner"
 DatabaseCleaner.strategy = :truncation
 
+if ENV["RUN_COVERAGE"] == "true"
+  require "simplecov"
+  SimpleCov.start
+end
+
 module Minitest
   class Test
     include FactoryBot::Syntax::Methods

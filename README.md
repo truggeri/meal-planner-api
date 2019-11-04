@@ -53,6 +53,7 @@ Environment variables used for configuration,
 | SINATRA_ENV | development | Environment to run in |
 | RACK_ENV | - | Environment to run Rack server in |
 | PORT | 4000 | Port to host Rack server on |
+| RUN_COVERAGE |  | Set to "true" to get SimpleCov coverage report |
 
 ## Running with Docker
 

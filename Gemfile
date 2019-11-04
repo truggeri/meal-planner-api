@@ -15,6 +15,7 @@ source "https://rubygems.org" do
     gem "rack-test"
     gem "rubocop"
     gem "rubocop-performance"
+    gem "simplecov"
   end
 
   group :development do
