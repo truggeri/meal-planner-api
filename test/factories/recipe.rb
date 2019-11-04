@@ -20,5 +20,12 @@ FactoryBot.define do
     minutes_to_make { Random.rand(1..100) }
     name            { FFaker::Food.ingredient }
     visible         { Random.rand(1..100) < RECIPE_VISIBLE_PERCENTAGE }
+
+    trait :with_ingredients do
+      after(:create) do |recipe|
+        i = create(:ingredient)
+        create(:recipe_ingredient, recipe: recipe, ingredient: i)
+      end
+    end
   end
 end

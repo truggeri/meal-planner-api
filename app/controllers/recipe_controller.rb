@@ -4,7 +4,20 @@ class RecipesController < ApplicationController
 
   # index
   get INDEX_PATH do
-    NOT_FOUND
+    halt NO_CONTENT if Recipe.where(visible: true).count.zero?
+
+    recipes = Recipe.includes(:recipe_ingredients, :ingredients)
+                    .where(visible: true)
+                    .limit(SINGLE_QUERY_LIMIT)
+                    .order(:id)
+    output = []
+    recipes.each do |r|
+      ingredients_hash = r.recipe_ingredients.each_with_object({}) do |ri, hash|
+        hash[ri.ingredient.name] = ri.slice(%i[amount measure precise_amount])
+      end
+      output << r.slice(permitted_params).merge(ingredients: ingredients_hash)
+    end
+    json output
   end
 
   # view
