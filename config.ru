@@ -8,5 +8,7 @@ configure :production, :development do
   use Rack::CommonLogger, ::Logger.new(STDOUT)
 end
 
-map("/") { run HealthController }
-map("/") { run IngredientsController }
+run ApplicationController
+use HealthController
+use IngredientsController
+use RecipesController

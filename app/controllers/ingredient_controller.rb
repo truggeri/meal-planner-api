@@ -10,10 +10,6 @@ class IngredientsController < ApplicationController
     json ingredients.select(permitted_params).limit(SINGLE_QUERY_LIMIT).order(:id)
   end
 
-  get "#{INDEX_PATH}/index" do
-    redirect to("/")
-  end
-
   # view
   get "#{ENTITY_PATH}/:id" do
     ingredient = Ingredient.select(permitted_params).find_by(id: params[:id])
