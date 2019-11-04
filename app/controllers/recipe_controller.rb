@@ -35,7 +35,11 @@ class RecipesController < ApplicationController
 
   # delete
   delete "#{ENTITY_PATH}/:id" do
-    NOT_FOUND
+    existing_recipe = Recipe.find_by(id: params[:id])
+    halt NOT_FOUND unless existing_recipe.present?
+
+    existing_recipe.delete
+    200
   end
 
   private
