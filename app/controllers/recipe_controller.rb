@@ -25,7 +25,13 @@ class RecipesController < ApplicationController
 
   # update
   patch "#{ENTITY_PATH}/:id" do
-    NOT_FOUND
+    existing_recipe = Recipe.find_by(id: params[:id])
+    halt NOT_FOUND unless existing_recipe.present?
+
+    params_to_update = params.slice(*(permitted_params - [:id]))
+    existing_recipe.update!(params_to_update)
+    existing_recipe.reload
+    json existing_recipe.slice(permitted_params)
   end
 
   # delete
