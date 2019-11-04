@@ -11,18 +11,16 @@ class RecipesController < ApplicationController
                     .limit(SINGLE_QUERY_LIMIT)
                     .order(:id)
     output = []
-    recipes.each do |r|
-      ingredients_hash = r.recipe_ingredients.each_with_object({}) do |ri, hash|
-        hash[ri.ingredient.name] = ri.slice(%i[amount measure precise_amount])
-      end
-      output << r.slice(permitted_params).merge(ingredients: ingredients_hash)
-    end
+    recipes.each { |r| output << format_with_ingredients(r) }
     json output
   end
 
   # view
   get "#{ENTITY_PATH}/:id" do
-    NOT_FOUND
+    recipe = Recipe.includes(:recipe_ingredients, :ingredients).select(permitted_params).find_by(id: params[:id])
+    halt NOT_FOUND if recipe.blank?
+
+    json format_with_ingredients(recipe)
   end
 
   # create
@@ -44,5 +42,12 @@ class RecipesController < ApplicationController
 
   def permitted_params
     @permitted_params ||= %i[id description minutes_to_make visible]
+  end
+
+  def format_with_ingredients(recipe)
+    ingredients_hash = recipe.recipe_ingredients.each_with_object({}) do |ri, hash|
+      hash[ri.ingredient.name] = ri.slice(%i[amount measure precise_amount])
+    end
+    recipe.slice(permitted_params).merge(ingredients: ingredients_hash)
   end
 end

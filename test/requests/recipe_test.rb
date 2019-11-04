@@ -19,9 +19,27 @@ class RecipeRequestTest < Minitest::Test
 
     get "/recipes"
     assert last_response.status == 200
+    assert_equal [format_ingredients(recipe)].to_json, last_response.body
+  end
+
+  def test_view_with_no_content
+    get "/recipe/1"
+    assert last_response.status == 404
+  end
+
+  def test_view_with_ingredient
+    recipe = create(:recipe, :with_ingredients)
+
+    get "/recipe/#{recipe.id}"
+    assert last_response.status == 200
+    assert_equal format_ingredients(recipe).to_json, last_response.body
+  end
+
+  private
+
+  def format_ingredients(recipe)
     ingredient_details = recipe.recipe_ingredients.first.slice(%i[amount measure precise_amount])
     ingredients_hash   = { "ingredients" => { recipe.ingredients.first.name => ingredient_details } }
-    expected_body      = [recipe.slice(PERMITTED_PARAMS).merge(ingredients_hash)]
-    assert_equal expected_body.to_json, last_response.body
+    recipe.slice(PERMITTED_PARAMS).merge(ingredients_hash)
   end
 end
