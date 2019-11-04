@@ -19,7 +19,7 @@ class RecipeRequestTest < Minitest::Test
 
     get "/recipes"
     assert last_response.status == 200
-    assert_equal [format_ingredients(recipe)].to_json, last_response.body
+    assert_equal [recipe.slice(PERMITTED_PARAMS)].to_json, last_response.body
   end
 
   def test_view_with_no_content

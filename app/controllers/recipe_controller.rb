@@ -6,13 +6,8 @@ class RecipesController < ApplicationController
   get INDEX_PATH do
     halt NO_CONTENT if Recipe.where(visible: true).count.zero?
 
-    recipes = Recipe.includes(:recipe_ingredients, :ingredients)
-                    .where(visible: true)
-                    .limit(SINGLE_QUERY_LIMIT)
-                    .order(:id)
-    output = []
-    recipes.each { |r| output << format_with_ingredients(r) }
-    json output
+    recipes = Recipe.where(visible: true).select(permitted_params).limit(SINGLE_QUERY_LIMIT).order(:id)
+    json recipes
   end
 
   # view
